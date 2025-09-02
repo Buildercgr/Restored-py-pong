@@ -28,6 +28,12 @@ jobs:
       - name: Build EXE
         run: pyinstaller --onefile --windowed --name Py_Pong py_pong.py
 
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: PyPong-Windows
+          path: dist/Py_Pong.exe
+
       - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v1
         with:

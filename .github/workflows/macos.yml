@@ -28,9 +28,16 @@ jobs:
       - name: Build macOS App
         run: pyinstaller --onefile --windowed --name Py_Pong py_pong.py
 
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: PyPong-macOS
+          path: dist/Py_Pong
+
       - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           files: dist/Py_Pong
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

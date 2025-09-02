@@ -28,6 +28,12 @@ jobs:
       - name: Build AppImage
         run: python -m python_appimage build app --recipe ./recipe
 
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: PyPong-Linux
+          path: dist/*.AppImage
+
       - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v1
         with:
