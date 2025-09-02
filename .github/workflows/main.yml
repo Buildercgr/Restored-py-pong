@@ -1,11 +1,9 @@
 name: Build and Release Executables
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: "v1.0.0"
-        required: true
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   build:
