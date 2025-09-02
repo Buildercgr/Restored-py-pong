@@ -25,7 +25,7 @@ jobs:
         run: python -m python_appimage build --recipe ./recipe
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: PyPong-Linux
           path: dist/*.AppImage
