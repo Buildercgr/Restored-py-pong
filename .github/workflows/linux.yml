@@ -26,7 +26,8 @@ jobs:
           pip install python-appimage
 
       - name: Build AppImage
-        run: python -m python_appimage build app --recipe ./recipe
+        run: python -m python_appimage build app --recipe-file python.appImage.yml
+
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
