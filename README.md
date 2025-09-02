@@ -15,15 +15,14 @@ Whether you're nostalgic for the golden age of gaming or just want a quick match
 - Cross-platform: Windows, macOS, Linux
 - And more will come in future...
 
-## Installation
+## Downloads
 
-You can download prebuilt versions for your system:
+| Platform | Format     | Download                                                                                       |
+|----------|------------|------------------------------------------------------------------------------------------------|
+| Windows  | `.exe`     | [Download](https://github.com/Buildercgr/Restored-py-pong/releases/download/v1.0.0/PyPong.exe) |
+| macOS    | `.app`     | [Download](https://github.com/Buildercgr/Restored-py-pong/releases/download/v1.0.0/PyPong.app)           |
+| Linux    | `.AppImage`| [Download](https://github.com/Buildercgr/Restored-py-pong/releases/download/v1.0.0/PyPong.AppImage)      |
 
-| Platform | Format     | Download |
-|----------|------------|----------|
-| Windows  | `.exe`     | [Download](#) |
-| macOS    | `.app`     | [Download](#) |
-| Linux    | `.AppImage`| [Download](#) |
 
 > No Python installation required. Just download and play.
 

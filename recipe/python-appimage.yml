@@ -1,0 +1,10 @@
+app: app/py_pong.py
+runtime:
+  python_version: "3.11"
+  system_packages:
+    - libgl1
+    - libx11-6
+  python_packages:
+    - pygame
+output:
+  filename: PyPong.AppImage
