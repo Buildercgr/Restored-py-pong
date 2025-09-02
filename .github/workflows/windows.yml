@@ -5,9 +5,13 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest
+
     steps:
       - uses: actions/checkout@v3
 
@@ -22,17 +26,11 @@ jobs:
           pip install pyinstaller
 
       - name: Build EXE
-        run: pyinstaller --onefile --windowed --name PyPong py_pong.py
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: PyPong-Windows
-          path: dist/py_pong.exe
+        run: pyinstaller --onefile --windowed --name Py_Pong py_pong.py
 
       - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: dist/PyPong.exe
+          files: dist/Py_Pong.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
