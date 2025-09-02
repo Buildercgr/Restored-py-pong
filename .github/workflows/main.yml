@@ -28,7 +28,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Build executable
-        run: pyinstaller --onefile app.py
+        run: pyinstaller --onefile --windowed py_pong.py
 
       - name: Rename executable
         run: |
@@ -44,7 +44,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-${{ matrix.os }}
+          name: py_pong-${{ matrix.os }}
           path: dist/*
 
   release:
@@ -64,7 +64,7 @@ jobs:
         run: ls -R
 
       - name: Make files executable (Linux/Mac)
-        run: chmod +x app-* || true
+        run: chmod +x py_pong-* || true
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
