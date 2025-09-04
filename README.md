@@ -20,8 +20,8 @@ Whether you're nostalgic for the golden age of gaming or just want a quick match
 | Platform | Format     | Download                                                                                       |
 |----------|------------|------------------------------------------------------------------------------------------------|
 | Windows  | `.exe`     | [Download](https://github.com/Buildercgr/Restored-py-pong/releases/download/main/py_pong.exe) |
-| macOS    | `universal.py`     | [Download](https://github.com/Buildercgr/Restored-py-pong/releases/download/v1.0.0/py_pong.py)           |
-| Linux    | `universal.py`| [Download](https://github.com/Buildercgr/Restored-py-pong/releases/download/v1.0.0/py_pong.py)      |
+| macOS    | `universal.py`     | [Download](https://github.com/Buildercgr/Restored-py-pong/releases/download/main/py_pong.py)           |
+| Linux    | `universal.py`| [Download](https://github.com/Buildercgr/Restored-py-pong/releases/download/main/py_pong.py)      |
 
 
 > No Python installation required. Just download and play.
