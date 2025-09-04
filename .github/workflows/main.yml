@@ -30,11 +30,11 @@ jobs:
 
       - name: Rename executable
         run: |
-          if [[ "${{ runner.os }}" == "Windows" ]]; then
+          if [[ "$RUNNER_OS" == "Windows" ]]; then
             mv dist/py_pong.exe dist/py-pong-windows.exe
-          elif [[ "${{ runner.os }}" == "Linux" ]]; then
+          elif [[ "$RUNNER_OS" == "Linux" ]]; then
             mv dist/py_pong dist/py-pong-linux
-          elif [[ "${{ runner.os }}" == "macOS" ]]; then
+          elif [[ "$RUNNER_OS" == "macOS" ]]; then
             mv dist/py_pong dist/py-pong-macos
         shell: bash
 
@@ -43,6 +43,7 @@ jobs:
         with:
           name: py_pong-${{ matrix.os }}
           path: dist/*
+
 
   release:
     needs: build
