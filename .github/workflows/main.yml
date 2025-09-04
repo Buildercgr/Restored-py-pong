@@ -36,6 +36,7 @@ jobs:
             mv dist/py_pong dist/py-pong-linux
           elif [[ "$RUNNER_OS" == "macOS" ]]; then
             mv dist/py_pong dist/py-pong-macos
+          fi
         shell: bash
 
       - name: Upload artifact
