@@ -46,34 +46,32 @@ jobs:
           path: dist/*
 
   release:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+  needs: build
+  runs-on: ubuntu-latest
+  permissions:
+    contents: write
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Download all build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          merge-multiple: true
+    - name: Download all build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        merge-multiple: true
 
-      - name: List downloaded files (Debugging)
-        run: ls -R
+    - name: Make files executable (Linux/Mac)
+      run: chmod +x app-* || true
 
-      - name: Make files executable (Linux/Mac)
-        run: chmod +x py_pong-* || true
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ github.ref_name }}
+        name: Release ${{ github.ref_name }}
+        draft: false
+        prerelease: false
+        files: |
+          py-pong-linux
+          py-pong-windows.exe
+          py-pong-macos
 
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.event.inputs.version }}
-          name: Release ${{ github.event.inputs.version }}
-          draft: false
-          prerelease: false
-          files: |
-            app-linux
-            app-windows.exe
-            app-macos
