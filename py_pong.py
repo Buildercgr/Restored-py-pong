@@ -3,16 +3,11 @@ import sys
 import random
 import time
 import os
-
-ICON_PATH = os.path.join(os.path.dirname(__file__), "Py-pong.png")
-icon_surface = pygame.image.load(ICON_PATH)
-
 pygame.init()
 
 WIDTH, HEIGHT = 800, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Py-Pong")
-pygame.display.set_icon(icon_surface)
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -112,6 +107,7 @@ if game_active:
                     game_active = True
         pygame.display.flip()
         clock.tick(60)
+
 
 
 
