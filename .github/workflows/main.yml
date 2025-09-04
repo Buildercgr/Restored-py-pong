@@ -1,4 +1,4 @@
-name: Build and Release Executables
+name: Build and Release Windows Executable
 
 on:
   push:
@@ -8,10 +8,7 @@ on:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
 
     steps:
       - name: Checkout repository
@@ -25,64 +22,20 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      # Windows: build .exe
       - name: Build Windows executable
-        if: matrix.os == 'windows-latest'
         run: pyinstaller --onefile --windowed py_pong.py
 
-      # macOS: build .app
-      - name: Build macOS .app
-        if: matrix.os == 'macos-latest'
-        run: |
-          pyinstaller --windowed py_pong.py
-          mv dist/py_pong.app dist/py-pong-macos.app
-
-      - name: Install FUSE
-        if: matrix.os == 'ubuntu-latest'
-        run: sudo apt-get update && sudo apt-get install -y libfuse2
-
-
-      # Linux: build .AppImage
-      - name: Create .desktop file
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-         echo "[Desktop Entry]
-         Name=PyPong
-         Exec=py_pong
-         Type=Application
-         Categories=Game;" > AppDir/py-pong.desktop
-
-      - name: Build Linux AppImage
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-         pyinstaller --onefile py_pong.py
-         mkdir -p AppDir/usr/bin
-         cp dist/py_pong AppDir/usr/bin/py_pong
-         wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O appimagetool
-         chmod +x appimagetool
-         ./appimagetool AppDir dist/py-pong-linux.AppImage || true
-
-      # Upload artifacts
       - name: Upload Windows .exe
-        if: matrix.os == 'windows-latest'
         uses: actions/upload-artifact@v4
         with:
           name: py-pong-windows
           path: dist/py_pong.exe
 
-      - name: Upload macOS .app
-        if: matrix.os == 'macos-latest'
+      - name: Upload raw .py file
         uses: actions/upload-artifact@v4
         with:
-          name: py-pong-macos
-          path: dist/py-pong-macos.app
-
-      - name: Upload Linux AppImage
-        if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v4
-        with:
-          name: py-pong-linux
-          path: dist/py-pong-linux.AppImage
+          name: py-pong-script
+          path: py_pong.py
 
   release:
     needs: build
@@ -99,8 +52,8 @@ jobs:
         with:
           merge-multiple: true
 
-      - name: Make files executable (Linux/Mac)
-        run: chmod +x py-pong-* || true
+      - name: Make files executable (just in case)
+        run: chmod +x py_pong.py || true
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -110,7 +63,7 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            py-pong-linux.AppImage
-            py-pong-windows.exe
-            py-pong-macos.app
+            py_pong.exe
+            py_pong.py
+
 
