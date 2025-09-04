@@ -25,26 +25,50 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Build executable
+      # Windows: build .exe
+      - name: Build Windows executable
+        if: matrix.os == 'windows-latest'
         run: pyinstaller --onefile --windowed py_pong.py
 
-      - name: Rename executable
+      # macOS: build .app
+      - name: Build macOS .app
+        if: matrix.os == 'macos-latest'
         run: |
-          if [[ "$RUNNER_OS" == "Windows" ]]; then
-            mv dist/py_pong.exe dist/py-pong-windows.exe
-          elif [[ "$RUNNER_OS" == "Linux" ]]; then
-            mv dist/py_pong dist/py-pong-linux
-          elif [[ "$RUNNER_OS" == "macOS" ]]; then
-            mv dist/py_pong dist/py-pong-macos
-          fi
-        shell: bash
+          pyinstaller --windowed py_pong.py
+          mv dist/py_pong.app dist/py-pong-macos.app
 
-      - name: Upload artifact
+      # Linux: build .AppImage
+      - name: Build Linux AppImage
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          pyinstaller --onefile py_pong.py
+          mkdir -p AppDir/usr/bin
+          cp dist/py_pong AppDir/usr/bin/py_pong
+          wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O appimagetool
+          chmod +x appimagetool
+          ./appimagetool AppDir dist/py-pong-linux.AppImage
+
+      # Upload artifacts
+      - name: Upload Windows .exe
+        if: matrix.os == 'windows-latest'
         uses: actions/upload-artifact@v4
         with:
-          name: py_pong-${{ matrix.os }}
-          path: dist/*
+          name: py-pong-windows
+          path: dist/py_pong.exe
 
+      - name: Upload macOS .app
+        if: matrix.os == 'macos-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: py-pong-macos
+          path: dist/py-pong-macos.app
+
+      - name: Upload Linux AppImage
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: py-pong-linux
+          path: dist/py-pong-linux.AppImage
 
   release:
     needs: build
@@ -72,7 +96,7 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            py-pong-linux
+            py-pong-linux.AppImage
             py-pong-windows.exe
-            py-pong-macos
+            py-pong-macos.app
 
