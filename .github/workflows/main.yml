@@ -30,13 +30,12 @@ jobs:
 
       - name: Rename executable
         run: |
-          if [[ "$RUNNER_OS" == "Windows" ]]; then
-            mv dist/py_pong.exe dist/app-windows.exe
-          elif [[ "$RUNNER_OS" == "Linux" ]]; then
-            mv dist/py_pong dist/app-linux
-          elif [[ "$RUNNER_OS" == "macOS" ]]; then
-            mv dist/py_pong dist/app-macos
-          fi
+          if [[ "${{ runner.os }}" == "Windows" ]]; then
+            mv dist/py_pong.exe dist/py-pong-windows.exe
+          elif [[ "${{ runner.os }}" == "Linux" ]]; then
+            mv dist/py_pong dist/py-pong-linux
+          elif [[ "${{ runner.os }}" == "macOS" ]]; then
+            mv dist/py_pong dist/py-pong-macos
         shell: bash
 
       - name: Upload artifact
@@ -46,32 +45,32 @@ jobs:
           path: dist/*
 
   release:
-  needs: build
-  runs-on: ubuntu-latest
-  permissions:
-    contents: write
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
-  steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Download all build artifacts
-      uses: actions/download-artifact@v4
-      with:
-        merge-multiple: true
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
 
-    - name: Make files executable (Linux/Mac)
-      run: chmod +x app-* || true
+      - name: Make files executable (Linux/Mac)
+        run: chmod +x py-pong-* || true
 
-    - name: Create GitHub Release
-      uses: softprops/action-gh-release@v2
-      with:
-        tag_name: ${{ github.ref_name }}
-        name: Release ${{ github.ref_name }}
-        draft: false
-        prerelease: false
-        files: |
-          py-pong-linux
-          py-pong-windows.exe
-          py-pong-macos
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.version || github.ref_name }}
+          name: Release ${{ github.event.inputs.version || github.ref_name }}
+          draft: false
+          prerelease: false
+          files: |
+            py-pong-linux
+            py-pong-windows.exe
+            py-pong-macos
 
