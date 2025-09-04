@@ -50,7 +50,7 @@ jobs:
          Name=PyPong
          Exec=py_pong
          Type=Application
-         Categories=Game;" > recipe/py-pong.desktop
+         Categories=Game;" > AppDir/py-pong.desktop
 
       - name: Build Linux AppImage
         if: matrix.os == 'ubuntu-latest'
